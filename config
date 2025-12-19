@@ -1,0 +1,154 @@
+##----------------------------------------------------
+### TEMEL AYARLAR
+### ----------------------------------------------------
+set $mod Mod4
+set $term kitty
+set $menu rofi -show drun
+
+### ----------------------------------------------------
+### UYGULAMA BAŞLATMA
+### ----------------------------------------------------
+# Terminal
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+R  exec swaymsg reload
+
+
+# Uygulama menüsü
+bindsym $mod+d exec $menu
+# Renk semasi
+# Format: client.<state> <border> <background> <text> <indicator>
+#client.focused          #009A88 #009A88 #8FFFC8 #8FFFC8
+#client.unfocused        #004040 #004040 #303030 #303030
+#client.urgent           #D12A2A #D12A2A #FFFFFF #FFFFFF
+include ~/.config/sway/dekucolorschame.conf
+for_window [app_id="kitty"] opacity 0.7
+for_window [app_id="firefox-esr"] opacity 0.7
+for_window [app_id="firefox"] opacity 0.7
+for_window [app_id="spotify"] opacity 0.7
+for_window [app_id="Spotify Free"] opacity 0.7
+for_window [app_id="Spotify Premium"] opacity 0.7
+for_window [app_id="Rofi"] opacity 0.7
+for_window [app_id="thunar"] opacity 0.7
+
+
+# Tüm pencereler için gap (piksel cinsinden)
+gaps inner 5
+gaps outer 5
+# PipeWire session manager
+exec_always --no-startup-id wireplumber
+
+# PipeWire multimedia server
+exec_always --no-startup-id pipewire
+
+# PipeWire Pulse replacement
+exec_always --no-startup-id pipewire-pulse
+
+exec_always swaybg -i /home/yusufcagriyavuz/.config/sway/Wallpaper/deku.png -m fill
+# Dosya yöneticisi (değiştirmek istersen söyle)
+bindsym $mod+e exec thunar
+
+### ----------------------------------------------------
+### PENCERE YÖNETİMİ (Hyprland benzeri)
+### ----------------------------------------------------
+# Pencereyi kapat
+bindsym $mod+q kill
+bindsym $mod+Right workspace next
+bindsym $mod+Left workspace prev
+bindsym $mod+Mod1+Left move left
+bindsym $mod+Mod1+Right move right
+bindsym $mod+Mod1+Up move up
+bindsym $mod+Mod1+Down move down
+# Fullscreen toggle
+bindsym $mod+f fullscreen
+# Launch the wallpaper selector script
+bindsym $mod+w exec ~/.config/sway/configs/wallpaper_selector.sh
+# Floating toggle
+bindsym $mod+space floating toggle
+
+# Pencere odak hareketleri
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Pencere konumlandırma (move)
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+### ----------------------------------------------------
+### WORKSPACES (Hyprland tarzı)
+### ----------------------------------------------------
+# workspace değiştir
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+
+# pencereyi workspace'e taşı + geç
+bindsym $mod+Shift+1 move container to workspace 1; workspace 1
+bindsym $mod+Shift+2 move container to workspace 2; workspace 2
+bindsym $mod+Shift+3 move container to workspace 3; workspace 3
+bindsym $mod+Shift+4 move container to workspace 4; workspace 4
+bindsym $mod+Shift+5 move container to workspace 5; workspace 5
+bindsym $mod+Shift+6 move container to workspace 6; workspace 6
+bindsym $mod+Shift+7 move container to workspace 7; workspace 7
+bindsym $mod+Shift+8 move container to workspace 8; workspace 8
+bindsym $mod+Shift+9 move container to workspace 9; workspace 9
+
+### ----------------------------------------------------
+### EKRAN GÖRÜNTÜSÜ (grim + slurp)
+### ----------------------------------------------------
+# Tüm ekran
+bindsym Print exec grim ~/Pictures/Screenshots/screenshot-$(date +'%Y%m%d-%H%M%S').png
+
+# Seçili alan (slurp)
+bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/Screenshots/area-$(date +'%Y%m%d-%H%M%S').png
+
+# Panoya (clipboard)
+bindsym Ctrl+Print exec grim - | wl-copy
+bindsym Ctrl+Shift+Print exec grim -g "$(slurp)" - | wl-copy
+
+### ----------------------------------------------------
+### SİSTEM / OTURUM
+### ----------------------------------------------------
+# Sway config reload
+bindsym $mod+Shift+c reload
+
+# Sway restart (reexec)
+#bindsym $mod+Shift+r restart
+
+# Logout
+bindsym $mod+Shift+e exec "swaymsg exit"
+
+### ----------------------------------------------------
+### SES / DONANIM TUŞLARI
+### ----------------------------------------------------
+# Ses
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Ekran parlaklığı
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+
+### ----------------------------------------------------
+### TOUCHPAD / MOUSE
+### ----------------------------------------------------
+
+input * {
+    xkb_layout "tr"
+    xkb_options "grp:alt_shift_toggle"
+}
+output DP-1 {
+    resolution 1920x1080
+    scale 1
+    position 0,0
+}
